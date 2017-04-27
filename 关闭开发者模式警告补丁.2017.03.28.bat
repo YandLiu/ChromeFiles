@@ -21,7 +21,7 @@ function main {
         ('', '\Wow6432Node') | %{
             $key = "${hive}:\SOFTWARE$_\Google\Update\Clients"
             gci -ea silentlycontinue $key -r | gp | ?{ $_.CommandLine } | %{
-                $path = $_.CommandLine -replace '"(.+?\\\d+\.\d+\.\d+\.\d+\\).+', '$1'
+                $path = $_.CommandLine -replace '"(.+?\\\d+\.\d+\.\d+\.\d+\\).+"', '$1'
                 if (!$pathsDone[$path.toLower()]) {
                     doPatch REGISTRY $path
                     $pathsDone[$path.toLower()] = $true
